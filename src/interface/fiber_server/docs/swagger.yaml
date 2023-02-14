@@ -1,0 +1,232 @@
+basePath: /staff-test
+definitions:
+  fiber_server.ErrorResponse:
+    properties:
+      error:
+        type: string
+      error_code:
+        type: integer
+      issue_id:
+        type: string
+    type: object
+  fiber_server.Staff:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: string
+      lastName:
+        type: string
+    type: object
+  fiber_server.staffListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/fiber_server.Staff'
+        type: array
+      total:
+        type: integer
+    type: object
+info:
+  contact:
+    name: API Support
+  description: Staff Test
+  license:
+    name: wayla
+  title: Staff Test
+  version: "1.0"
+paths:
+  /staffs:
+    get:
+      consumes:
+      - application/json
+      description: return rows of staff
+      parameters:
+      - description: offset number
+        in: query
+        name: offset
+        type: number
+      - description: limit number
+        in: query
+        name: limit
+        type: number
+      - description: search string
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/fiber_server.staffListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+      security:
+      - X-User-Headers: []
+      summary: get staffs
+      tags:
+      - Staffs
+    post:
+      consumes:
+      - application/json
+      description: return array of created id
+      parameters:
+      - description: The input staff struct
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/fiber_server.Staff'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: IDs of created staff
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+      security:
+      - X-User-Headers: []
+      summary: create staffs
+      tags:
+      - Staffs
+  /staffs/{staff_id}:
+    delete:
+      consumes:
+      - application/json
+      description: return OK
+      parameters:
+      - description: staff id of staff to be deleted
+        in: path
+        name: staff_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+      security:
+      - X-User-Headers: []
+      summary: delete staff
+      tags:
+      - Staffs
+    get:
+      consumes:
+      - application/json
+      description: return a row of staff
+      parameters:
+      - description: staff id of staff to be fetched
+        in: path
+        name: staff_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/fiber_server.Staff'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+      security:
+      - X-User-Headers: []
+      summary: get staff by id
+      tags:
+      - Staffs
+    put:
+      consumes:
+      - application/json
+      description: return OK
+      parameters:
+      - description: staff id of staff to be updated
+        in: path
+        name: staff_id
+        required: true
+        type: string
+      - description: The input staff struct
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/fiber_server.Staff'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fiber_server.ErrorResponse'
+      security:
+      - X-User-Headers: []
+      summary: update staff
+      tags:
+      - Staffs
+securityDefinitions:
+  X-User-Headers:
+    in: header
+    name: X-User-Id
+    type: apiKey
+swagger: "2.0"
