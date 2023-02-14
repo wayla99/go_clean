@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+  postgres:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    volumes:
+      - "pgsql_data:/data/db"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    restart: always
+    networks:
+      - default
+  jaeger:
+    image: docker.io/jaegertracing/all-in-one:1.33
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+      - "6832:6832"
+      - "6831:6831"
+volumes:
+  pgsql_data:
+    driver: local
